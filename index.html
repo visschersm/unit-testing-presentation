@@ -1,16 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reveal.js with Vite</title>
     <link rel="stylesheet" href="/style.css">
 </head>
+
 <body>
     <div class="reveal">
         <div class="slides">
-            <section>Testing</section>
-            <section>Slide 2: This is easy!</section>
+            <section data-markdown>
+                # Testing
+            </section>
+            <section>
+                <section data-markdown>
+                    <script type="text/template">
+                    ## Vormen van Testen
+                    <figure>
+                        <img src="/images/software-testing-pyramid-testevolve-2296947827.jpg" alt="Testing Pyramid">
+                        <figcaption>Image Source:
+                            <a
+                                href="https://www.testevolve.com/blog/the-testing-pyramid-an-essential-strategy-for-agile-testing">testevolve.com</a>
+                        </figcaption>
+                    </figure>
+                </script>
+                </section>
+                <section>
+                    <h2>Slide Content</h2>
+                    <p>It is formal testing according to user needs, requirements, and business processes conducted to
+                        determine whether a system satisfies the acceptance criteria or not and to enable the users,
+                        customers, or other authorized entities to determine whether to accept the system or not.</p>
+                    <div style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
+                        <a href="https://example.com" target="_blank">Visit my blog</a>
+                    </div>
+                </section>
+                <section data-markdown>
+                    End-to-end Testing
+                </section>
+                <section data-markdown>
+                    System Testing
+                </section>
+                <section data-markdown>
+                    Integration Testing
+                </section>
+                <section data-markdown>
+                    Unit Testing
+                </section>
+            </section>
+            <section>
+                <section data-markdown>
+                    Code Coverage
+                </section>
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="|11-12">
+[TestMethod]
+public void FalseTestMethod()
+{
+    // Arrange
+    var systemUnderTest = new SystemUnderTest();
+
+    // Act
+    var result = systemUnderTest.MethodUnderTest();
+
+    // Assert
+    Assert.IsTrue(true);
+}
+                    </code></pre>
+                </section>
+            </section>
+            <section>
+                <section>Unit Testing</section>
+                <section>Dependencies</section>
+                <section>Mocking/Stubbing</section>
+                <section>Ploymorphism</section>
+                <section>Overwriting vs Hiding</section>
+                <section>Interfaces</section>
+                <section>Factory</section>
+            </section>
             <section>
                 <h2>Code Example (C#)</h2>
                 <pre><code class="language-csharp">
@@ -24,8 +92,12 @@ public class HelloWorld {
 }
                 </code></pre>
             </section>
+            <section data-markdown>
+                # VerifyTests
+            </section>
         </div>
     </div>
     <script type="module" src="/src/main.js"></script>
 </body>
+
 </html>
