@@ -2,7 +2,19 @@
 @import url('node_modules/reveal.js/dist/theme/black.css');
 @import url('node_modules/reveal.js/plugin/highlight/monokai.css');
 
-section {
-    padding-bottom: 40px;
-    /* Adjust the padding to your needs */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4,
+.reveal h5,
+.reveal h6,
+.reveal p {
+    text-align: left !important;
+}
+
+.reveal pre {
+    max-height: none;
+    /* Prevent clipping */
+    width: 100%;
+    /* Adjust width */
 }

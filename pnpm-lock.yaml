@@ -14,6 +14,9 @@ importers:
       reveal.js:
         specifier: ^5.2.0
         version: 5.2.0
+      reveal.js-mermaid-plugin:
+        specifier: ^11.4.1
+        version: 11.4.1
     devDependencies:
       vite:
         specifier: ^6.2.0
@@ -300,6 +303,10 @@ packages:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
     engines: {node: ^10 || ^12 || >=14}
 
+  reveal.js-mermaid-plugin@11.4.1:
+    resolution: {integrity: sha512-ZRVVRmaqrGsaMl/EVJLwVX7fct5GJ9njfvaKM3OFKSn21N+pJ+dmGlPAA3M7D8IN7tk0Bslq9IbzPJyZB3HRCw==}
+    engines: {node: '>=10.0.0'}
+
   reveal.js@5.2.0:
     resolution: {integrity: sha512-TWd9VVYZZW/MGlm5arVPbN5ne49GXrTpil8KFOBOOfHWS4GjSCpSaHfj3iB+Rh0rJTQGbkrQr66l6R3bnElXBw==}
     engines: {node: '>=18.0.0'}
@@ -534,6 +541,8 @@ snapshots:
       nanoid: 3.3.11
       picocolors: 1.1.1
       source-map-js: 1.2.1
+
+  reveal.js-mermaid-plugin@11.4.1: {}
 
   reveal.js@5.2.0: {}
 

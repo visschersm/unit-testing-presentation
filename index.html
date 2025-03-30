@@ -13,11 +13,18 @@
         <div class="slides">
             <section data-markdown>
                 # Testing
+                - Vormen van Testen
+                - Unit Testing
+                - MSTest Example
+                - Dependencies
+                - Coverage
+                - VerifyTests
             </section>
+
+            <!-- Vormen van Testen -->
             <section>
-                <section data-markdown>
-                    <script type="text/template">
-                    ## Vormen van Testen
+                <section>
+                    <h2>Vormen van Testen</h2>
                     <figure>
                         <img src="/images/software-testing-pyramid-testevolve-2296947827.jpg" alt="Testing Pyramid">
                         <figcaption>Image Source:
@@ -25,28 +32,174 @@
                                 href="https://www.testevolve.com/blog/the-testing-pyramid-an-essential-strategy-for-agile-testing">testevolve.com</a>
                         </figcaption>
                     </figure>
-                </script>
                 </section>
                 <section>
-                    <h2>Slide Content</h2>
-                    <p>It is formal testing according to user needs, requirements, and business processes conducted to
-                        determine whether a system satisfies the acceptance criteria or not and to enable the users,
-                        customers, or other authorized entities to determine whether to accept the system or not.</p>
+                    <h2>End-to-end Testing</h2>
+                    <p>End-to-end testing is the type of software testing used to test <span
+                            class="fragment highlight-red">entire software from starting to
+                            the end along with its integration with external interfaces.</span> The main purpose of
+                        end-to-end
+                        testing is to identify system dependencies and to make sure that the data integrity and
+                        communication with other systems, interfaces and databases to exercise complete production.</p>
                     <div style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
-                        <a href="https://example.com" target="_blank">Visit my blog</a>
+                        <a href="https://www.geeksforgeeks.org/types-software-testing/" target="_blank">Types of
+                            Software Testing</a>
                     </div>
                 </section>
-                <section data-markdown>
-                    End-to-end Testing
+                <section>
+                    <h2>Integration Testing</h2>
+                    <p>Integration testing is a method of testing how <span class="fragment highlight-red">different
+                            units or components of a software
+                            application interact with each other.</span> It is used to identify and resolve any issues
+                        that may
+                        arise when different units of the software are combined. Integration testing is typically done
+                        after unit testing and before functional testing and is used to verify that the different units
+                        of the software work together as intended. </p>
+                </section>
+
+                <section>
+                    <h2>Unit Testing</h2>
+                    <p>Unit testing is a method of testing <span class="fragment highlight-red">individual units or
+                            components of a software application.</span> It is typically done by developers and is used
+                        to ensure that the individual units of the software are working as intended. Unit tests are
+                        usually automated and are designed to test specific parts of the code, such as a particular
+                        function or method. Unit testing is done at the lowest level of the software development process
+                        , where individual units of code are tested in isolation.</p>
+                </section>
+            </section>
+
+            <!-- Unit Testing -->
+            <section>
+                <section>
+                    <h2>Unit Testing (+ Integration Testing)</h2>
                 </section>
                 <section data-markdown>
-                    System Testing
+                    ## Unit Testing
+                    Pros
+                    - Early Bug Detection (TDD)
+                    - Increased Quality of Code
+                    - Cost-effective
+                    - Simplified Debugging
+
+                    Cons
+                    - Limited Scope
+                    - Time-consuming
+                    - False Sense of Security
+                    </ul>
                 </section>
                 <section data-markdown>
-                    Integration Testing
+                    ### Naming Convention
+                    [Microsoft
+                    Convention]("https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices#follow-test-naming-standards")
+
+                    The name of your test should consist of three parts:
+                    - Name of the method being tested
+                    - Scenario under which the method is being tested
+                    - Expected behavior when the scenario is invoked
+
+                    [UnitOfWork_StateUnderTest_ExpectedBehavior]
                 </section>
                 <section data-markdown>
-                    Unit Testing
+                    ### AAA
+                    - Arrange
+                    - Act
+                    - Assert
+                </section>
+            </section>
+
+            <!-- MSTest Example -->
+            <section>
+                <section>
+                    <h2>Example</h2>
+                </section>
+                <section>
+                    <pre><code style="max-height: 100%" class="language-csharp" data-line-numbers="|2|4-8|10-11|13-14">[TestMethod]
+public void Addtion_ValidXandY_SomeReturnAddition()
+{
+    // Arrange
+    var sut = new MathLib();
+    var validX = 1;
+    var validY = 2;
+    var expectedResult = 3;
+
+    // Act
+    var result = sut.Addition(validX, validY);
+
+    // Assert
+    Assert.AreEqual(expectedResult, result);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code style="max-height: 100%" class="language-csharp" data-line-numbers="|10-11">[TestMethod]
+public void Addition_XBelowZero_ArgumentOutOfRangeException()
+{
+    // Arrange
+    var sut = new MathLib();
+    int invalidX = -1;
+    int validY = 2;
+
+    // Act & Assert
+    Assert.ThrowsException&lt;ArgumentOutOfRangeException&gt;(()
+        => sut.Addition(invalidX, validY));
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code style="max-height: 100%" class="language-csharp" data-line-numbers="|10-11">[TestMethod]
+public void Addition_YBelowZero_ArgumentOutOfRangeException()
+{
+    // Arrange
+    var sut = new MathLib();
+    int validX = 1;
+    int invalidY = -2;
+
+    // Act & Assert
+    Assert.ThrowsException&lt;ArgumentOutOfRangeException&gt;(()
+        => sut.Addition(validX, invalidY));
+}
+                    </code></pre>
+                </section>
+                <section data-markdown>
+                    ```csharp
+                    public void Addtion_ValidXandY_SomeReturnAddition()
+                    public void Addition_XBelowZero_ArgumentOutOfRangeException()
+                    public void Addition_YBelowZero_ArgumentOutOfRangeException()
+                    ```
+                </section>
+            </section>
+
+            <!-- Dependencies -->
+            <section>
+                <section>
+                    <p>'Unit of work'</p>
+                    <p>Unit testing is a method of testing <mark>individual units or
+                            components of a software application.</mark> It is typically done by developers and is used
+                        to ensure that the individual units of the software are working as intended. Unit tests are
+                        usually automated and are designed to test specific parts of the code, such as a particular
+                        function or method. Unit testing is done at the lowest level of the software development process
+                        , where individual units of code are <mark>tested in isolation.</mark>
+                    </p>
+                </section>
+                <section data-markdown>
+                    <!-- todo: insert complex dependency example -->
+                </section>
+                <section>
+                    <!-- todo: improve example 
+                     maybe some thing like
+                     - get data
+                     - map data
+                     - validate data
+                     everything is mocked. What do we test?-->
+                    <pre><code style="max-height: 100%" class="language-csharp">public Task SendAsync()
+{
+    _client.SendAsync();
+}
+</code></pre>
+                </section>
+                <section>
+                    <!-- todo: use ms convention to use correct terms -->
+                    <!-- todo: stubbing external code -->
                 </section>
             </section>
             <section>
@@ -70,7 +223,7 @@ public void FalseTestMethod()
                     </code></pre>
                 </section>
             </section>
-            <section>
+            <!-- <section>
                 <section>Unit Testing</section>
                 <section>Dependencies</section>
                 <section>Mocking/Stubbing</section>
@@ -78,20 +231,8 @@ public void FalseTestMethod()
                 <section>Overwriting vs Hiding</section>
                 <section>Interfaces</section>
                 <section>Factory</section>
-            </section>
-            <section>
-                <h2>Code Example (C#)</h2>
-                <pre><code class="language-csharp">
-// C# example
-using System;
+            </section> -->
 
-public class HelloWorld {
-    public static void Main() {
-        Console.WriteLine("Hello, World!");
-    }
-}
-                </code></pre>
-            </section>
             <section data-markdown>
                 # VerifyTests
             </section>
