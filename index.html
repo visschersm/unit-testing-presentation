@@ -17,8 +17,9 @@
                 - Unit Testing
                 - MSTest Example
                 - Dependencies
+                - Mocking
                 - Coverage
-                - VerifyTests
+                - Assertion (+ VerifyTests)
             </section>
 
             <!-- Vormen van Testen -->
@@ -46,6 +47,7 @@
                             Software Testing</a>
                     </div>
                 </section>
+
                 <section>
                     <h2>Integration Testing</h2>
                     <p>Integratietesting is een testmethode waarmee wordt gecontroleerd hoe <span
@@ -182,6 +184,20 @@ public void Addition_YBelowZero_ArgumentOutOfRangeException()
                         eenheden van code <mark>geïsoleerd worden getest.</mark></p>
                 </section>
                 <section>
+                    ## Isolatie
+                </section>
+                <section>
+                </section>
+            </section>
+
+            <!-- Mocking -->
+            <section>
+                <section data-markdown>
+                    <!-- todo: use ms convention to use correct terms -->
+                    <!-- todo: stubbing external code -->
+                    ## Mocking
+                </section>
+                <section>
                     <pre><code class="language-csharp" data-line-numbers="3-5|7-15|17-29">public class DataService
 {
     private readonly IDataClient _dataClient;
@@ -243,11 +259,9 @@ public async Task TestMethod1()
 }
                     </code></pre>
                 </section>
-                <section>
-                    <!-- todo: use ms convention to use correct terms -->
-                    <!-- todo: stubbing external code -->
-                </section>
             </section>
+
+            <!-- Code Coverage -->
             <section>
                 <section data-markdown>
                     Code Coverage
@@ -269,18 +283,17 @@ public void FalseTestMethod()
                     </code></pre>
                 </section>
             </section>
-            <!-- <section>
-                <section>Unit Testing</section>
-                <section>Dependencies</section>
-                <section>Mocking/Stubbing</section>
-                <section>Ploymorphism</section>
-                <section>Overwriting vs Hiding</section>
-                <section>Interfaces</section>
-                <section>Factory</section>
-            </section> -->
 
-            <section data-markdown>
+            <!-- Assertions (+ VerifyTests) -->
+            <section>
                 # VerifyTests
+            </section>
+
+            <!-- AutoFixture -->
+            <section>
+                <section>
+                    AutoFixture
+                </section>
             </section>
         </div>
     </div>
