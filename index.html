@@ -35,36 +35,37 @@
                 </section>
                 <section>
                     <h2>End-to-end Testing</h2>
-                    <p>End-to-end testing is the type of software testing used to test <span
-                            class="fragment highlight-red">entire software from starting to
-                            the end along with its integration with external interfaces.</span> The main purpose of
-                        end-to-end
-                        testing is to identify system dependencies and to make sure that the data integrity and
-                        communication with other systems, interfaces and databases to exercise complete production.</p>
-                    <div style="position: absolute; bottom: 20px; width: 100%; text-align: center;">
+                    <p>End-to-end testing is een type softwaretesting dat wordt gebruikt om <span
+                            class="fragment highlight-red">de volledige software van begin tot eind te testen, inclusief
+                            de integratie met externe interfaces.</span> Het belangrijkste doel van end-to-end testing
+                        is om systeem afhankelijkheden te identificeren en ervoor te zorgen dat de gegevensintegriteit
+                        en communicatie met andere systemen, interfaces en databases volledig functioneert zoals in
+                        productie.</p>
+                    <div style="position: absolute; width: 100%; text-align: center;">
                         <a href="https://www.geeksforgeeks.org/types-software-testing/" target="_blank">Types of
                             Software Testing</a>
                     </div>
                 </section>
                 <section>
                     <h2>Integration Testing</h2>
-                    <p>Integration testing is a method of testing how <span class="fragment highlight-red">different
-                            units or components of a software
-                            application interact with each other.</span> It is used to identify and resolve any issues
-                        that may
-                        arise when different units of the software are combined. Integration testing is typically done
-                        after unit testing and before functional testing and is used to verify that the different units
-                        of the software work together as intended. </p>
+                    <p>Integratietesting is een testmethode waarmee wordt gecontroleerd hoe <span
+                            class="fragment highlight-red">verschillende eenheden of componenten van een
+                            softwareapplicatie met elkaar samenwerken.</span> Het wordt gebruikt om eventuele problemen
+                        te identificeren en op te lossen die kunnen ontstaan wanneer verschillende eenheden van de
+                        software worden gecombineerd. Integratietesting wordt meestal uitgevoerd na unittests en vóór
+                        functionele tests en wordt gebruikt om te verifiëren dat de verschillende eenheden van de
+                        software samenwerken zoals bedoeld.</p>
                 </section>
 
                 <section>
                     <h2>Unit Testing</h2>
-                    <p>Unit testing is a method of testing <span class="fragment highlight-red">individual units or
-                            components of a software application.</span> It is typically done by developers and is used
-                        to ensure that the individual units of the software are working as intended. Unit tests are
-                        usually automated and are designed to test specific parts of the code, such as a particular
-                        function or method. Unit testing is done at the lowest level of the software development process
-                        , where individual units of code are tested in isolation.</p>
+                    <p>Unittesting is een testmethode waarbij <span class="fragment highlight-red">individuele eenheden
+                            of componenten van een softwareapplicatie</span> worden getest. Het wordt meestal uitgevoerd
+                        door ontwikkelaars en wordt gebruikt om te garanderen dat de afzonderlijke eenheden van de
+                        software correct functioneren. Unittests zijn doorgaans geautomatiseerd en ontworpen om
+                        specifieke delen van de code te testen, zoals een bepaalde functie of methode. Unittesting wordt
+                        uitgevoerd op het laagste niveau van het softwareontwikkelingsproces, waarbij individuele
+                        eenheden van code geïsoleerd worden getest.</p>
                 </section>
             </section>
 
@@ -75,27 +76,26 @@
                 </section>
                 <section data-markdown>
                     ## Unit Testing
-                    Pros
-                    - Early Bug Detection (TDD)
-                    - Increased Quality of Code
-                    - Cost-effective
-                    - Simplified Debugging
+                    Voordelen
+                    - Vroege foutdetectie (TDD)
+                    - Verhoogde codekwaliteit
+                    - Kosteneffectief
+                    - Vereenvoudigd debuggen
 
-                    Cons
-                    - Limited Scope
-                    - Time-consuming
-                    - False Sense of Security
-                    </ul>
+                    Nadelen
+                    - Beperkte reikwijdte
+                    - Tijdrovend
+                    - Valse gevoel van veiligheid
                 </section>
                 <section data-markdown>
                     ### Naming Convention
                     [Microsoft
                     Convention]("https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices#follow-test-naming-standards")
 
-                    The name of your test should consist of three parts:
-                    - Name of the method being tested
-                    - Scenario under which the method is being tested
-                    - Expected behavior when the scenario is invoked
+                    De naam van een test zou moeten bestaan uit drie delen:
+                    - Naam van de methode/unit onder test
+                    - Senario waaronder de test uitgevoerd wordt
+                    - Verwachte gedrag wanneer dit senario uitgevoerd wordt
 
                     [UnitOfWork_StateUnderTest_ExpectedBehavior]
                 </section>
@@ -173,29 +173,75 @@ public void Addition_YBelowZero_ArgumentOutOfRangeException()
             <section>
                 <section>
                     <p>'Unit of work'</p>
-                    <p>Unit testing is a method of testing <mark>individual units or
-                            components of a software application.</mark> It is typically done by developers and is used
-                        to ensure that the individual units of the software are working as intended. Unit tests are
-                        usually automated and are designed to test specific parts of the code, such as a particular
-                        function or method. Unit testing is done at the lowest level of the software development process
-                        , where individual units of code are <mark>tested in isolation.</mark>
-                    </p>
-                </section>
-                <section data-markdown>
-                    <!-- todo: insert complex dependency example -->
+                    <p>Unittesting is een testmethode waarbij <mark>individuele eenheden
+                            of componenten van een softwareapplicatie</mark> worden getest. Het wordt meestal uitgevoerd
+                        door ontwikkelaars en wordt gebruikt om te garanderen dat de afzonderlijke eenheden van de
+                        software correct functioneren. Unittests zijn doorgaans geautomatiseerd en ontworpen om
+                        specifieke delen van de code te testen, zoals een bepaalde functie of methode. Unittesting wordt
+                        uitgevoerd op het laagste niveau van het softwareontwikkelingsproces, waarbij individuele
+                        eenheden van code <mark>geïsoleerd worden getest.</mark></p>
                 </section>
                 <section>
-                    <!-- todo: improve example 
-                     maybe some thing like
-                     - get data
-                     - map data
-                     - validate data
-                     everything is mocked. What do we test?-->
-                    <pre><code style="max-height: 100%" class="language-csharp">public Task SendAsync()
+                    <pre><code class="language-csharp" data-line-numbers="3-5|7-15|17-29">public class DataService
 {
-    _client.SendAsync();
+    private readonly IDataClient _dataClient;
+    private readonly IDataValidator _validator;
+    private readonly IMapper _mapper;
+
+    public DataService(
+        IDataClient dataClient, 
+        IDataValidator validator, 
+        IMapper mapper)
+    {
+        _dataClient = dataClient;
+        _validator = validator;
+        _mapper = mapper;
+    }
+
+    public async Task&lt;IReadOnlyCollection&lt;DataDto&gt;&gt; GetData()
+    {
+        var data = await _dataClient.GetData();
+
+        if (!_validator.Validate(data))
+        {
+            return [];
+        }
+
+        var dtos = _mapper.MapData(data);
+
+        return dtos;
+    }
 }
-</code></pre>
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code class="language-csharp" style="max-height:100%" data-line-numbers="|7-17">[TestMethod]
+public async Task TestMethod1()
+{
+    // Arrange
+    List&lt;DataDto&gt; expectedResult = [ new() { Id = Guid.NewGuid() } ];
+    
+    var mockedClient = Substitute.For&lt;IDataClient&gt;();
+    mockedClient.GetData()
+        .Returns([ new() { Id = Guid.NewGuid() } ]);
+
+    var mockedValidator = Substitute.For&lt;IDataValidator&gt;();
+    mockedValidator.Validate(Arg.Any&lt;IReadOnlyCollection&lt;DataModel&gt;&gt;())
+        .Returns(true);
+
+    var mockedMapper = Substitute.For&lt;IMapper&gt;();
+    mockedMapper.MapData(Arg.Any&lt;IReadOnlyCollection&lt;DataModel&gt;&gt;())
+        .Returns(expectedResult);
+
+    var sut = new DataService(mockedClient, mockedValidator, mockedMapper);
+
+    // Act
+    var result = await sut.GetData();
+
+    // Assert
+    Assert.AreEqual(expectedResult, result);
+}
+                    </code></pre>
                 </section>
                 <section>
                     <!-- todo: use ms convention to use correct terms -->
