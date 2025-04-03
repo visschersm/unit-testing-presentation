@@ -19,7 +19,7 @@
                 - Dependencies
                 - Mocking
                 - Coverage
-                - Assertion (+ VerifyTests)
+                - Tooling
             </section>
 
             <!-- Vormen van Testen -->
@@ -184,18 +184,7 @@ public void Addition_YBelowZero_ArgumentOutOfRangeException()
                         eenheden van code <mark>geïsoleerd worden getest.</mark></p>
                 </section>
                 <section>
-                    ## Isolatie
-                </section>
-                <section>
-                </section>
-            </section>
-
-            <!-- Mocking -->
-            <section>
-                <section data-markdown>
-                    <!-- todo: use ms convention to use correct terms -->
-                    <!-- todo: stubbing external code -->
-                    ## Mocking
+                    <h2>Isolatie</h2>
                 </section>
                 <section>
                     <pre><code class="language-csharp" data-line-numbers="3-5|7-15|17-29">public class DataService
@@ -230,8 +219,212 @@ public void Addition_YBelowZero_ArgumentOutOfRangeException()
 }
                     </code></pre>
                 </section>
+            </section>
+
+            <!-- Mocking -->
+            <section>
                 <section>
-                    <pre><code class="language-csharp" style="max-height:100%" data-line-numbers="|7-17">[TestMethod]
+                    <!-- todo: use ms convention to use correct terms -->
+                    <!-- todo: stubbing external code -->
+                    <h2>Mocking</h2>
+                </section>
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="|3-8|14-19|23-27">public class MathService1
+{
+    private readonly ExternalDependencyImplementation _dependency1;
+    
+    public MathService1(ExternalDependencyImplementation dependency1)
+    {
+        _dependency1 = dependency1;
+    }
+
+    public Response AdvanceAddition(int x, int y)
+    {
+        try
+        {
+            var result = _dependency1.DoStuff(x, y);
+            return new Response
+            {
+                StatusCode = 200,
+                Data = result,
+            };
+        }
+        catch
+        {
+            return new Response
+            {
+                StatusCode = 500,
+                Data = null,
+            };
+        }
+    }
+}
+                    </code></pre>
+                </section>
+                <!-- valid testcase -->
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="|8|10-11">[TestMethod]
+public void AdvanceAddition_ValidState_StatusCode200()
+{
+    var dependency1 = new ExternalDependencyImplementation();
+    
+    var sut = new MathService1(dependency1);
+
+    var result = sut.AdvanceAddition(1, 2);
+
+    Assert.AreEqual(200, result.StatusCode);
+    Assert.AreEqual(3, result.Data);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <figure>
+                        <img src="images/checkmark.png" alt="checkmark">
+                </section>
+                <!-- How to test invalid cases? -->
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="">[TestMethod]
+public void AdvanceAddition_InternalServerError_StatusCode500()
+{
+    ...
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="|2|10-11">[TestMethod]
+public void AdvanceAddition_InternalServerError_StatusCode500()
+{
+    var dependency1 = new ExternalDependencyImplementation();
+    
+    var sut = new MathService1(dependency1);
+    
+    var result = sut.AdvanceAddition(1, 2);
+
+    Assert.AreEqual(500, result.StatusCode);
+    Assert.AreEqual(null, result.Data);
+}
+                        </code></pre>
+                </section>
+                <section>
+                    <img src="images/failing_test.png" alt="failign test">
+                    <img src="images/cross.png" alt="failign test">
+                </section>
+
+                <!-- Overrideing implementation: class change -->
+                <section>
+                    <h2>override d.m.v. virtual</h2>
+                    <pre><code class="language-csharp" data-line-numbers="|4">public class ExternalDependencyImplementation
+{
+
+    public virtual int DoStuff(int x, int y)
+    {
+        return x + y;
+    }
+}
+                    </code></pre>
+                </section>
+                <!-- Overriding implemenation: TestDependency -->
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="|3,6-9">public class ExternalDepenedencyTestImplementation : ExternalDependencyImplementation
+{
+    public bool ThrowException { get; set; } = false;
+    public override int DoStuff(int x, int y)
+    {
+        if (ThrowException)
+        {
+            throw new Exception();
+        }
+
+        throw new NotImplementedException();
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code class="language-csharp" data-line-numbers="|4-7|13-14">[TestMethod]
+public void AdvanceAddition_InternalServerError_StatusCode500_ByOverride()
+{
+    var dependency1 = new ExternalDepenedencyOverrideImplementation
+    {
+        ThrowException = true,
+    };
+
+    var sut = new MathService1(dependency1);
+    
+    var result = sut.AdvanceAddition(1, 2);
+
+    Assert.AreEqual(500, result.StatusCode);
+    Assert.AreEqual(null, result.Data);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <figure>
+                        <img src="images/checkmark.png" alt="checkmark">
+                </section>
+                <section>
+                    <p>Veel handmatig opzet werk</p>
+                </section>
+                <section>
+                    <h2>Mocking Frameworks (NSubstitute)</h2>
+                    <pre><code class="language-csharp" data-line-numbers="|4-6|12-13">[TestMethod]
+public void AdvanceAddition_InternalServerError_StatusCode500_BySubstitute()
+{
+    var dependency1 = Substitute.For&lt;ExternalDependencyImplementation&gt;();
+    dependency1.DoStuff(Arg.Any&lt;int&gt;(), Arg.Any&lt;int&gt;())
+        .Throws(new Exception());
+    
+    var sut = new MathService1(dependency1);
+    
+    var result = sut.AdvanceAddition(1, 2);
+
+    Assert.AreEqual(500, result.StatusCode);
+    Assert.AreEqual(null, result.Data);
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <figure>
+                        <img src="images/checkmark.png" alt="checkmark">
+                </section>
+
+                <!-- Testing your mocks -->
+                <section>
+                    <h2>Testing your mocks</h2>
+                    <pre><code class="language-csharp" data-line-numbers="3-5|7-15|17-29">public class DataService
+{
+    private readonly IDataClient _dataClient;
+    private readonly IDataValidator _validator;
+    private readonly IMapper _mapper;
+
+    public DataService(
+        IDataClient dataClient, 
+        IDataValidator validator, 
+        IMapper mapper)
+    {
+        _dataClient = dataClient;
+        _validator = validator;
+        _mapper = mapper;
+    }
+
+    public async Task&lt;IReadOnlyCollection&lt;DataDto&gt;&gt; GetData()
+    {
+        var data = await _dataClient.GetData();
+
+        if (!_validator.Validate(data))
+        {
+            return [];
+        }
+
+        var dtos = _mapper.MapData(data);
+
+        return dtos;
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code class="language-csharp" style="max-height:100%" data-line-numbers="|7-17|5,19-25">[TestMethod]
 public async Task TestMethod1()
 {
     // Arrange
@@ -286,14 +479,12 @@ public void FalseTestMethod()
 
             <!-- Assertions (+ VerifyTests) -->
             <section>
-                # VerifyTests
-            </section>
-
-            <!-- AutoFixture -->
-            <section>
-                <section>
-                    AutoFixture
-                </section>
+                <h2>Tooling</h2>
+                <ul>
+                    <li>VerifyTests</li>
+                    <li>FluentAssertions => Shouldly</li>
+                    <li>AutoFixture</li>
+                </ul>
             </section>
         </div>
     </div>
